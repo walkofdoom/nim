@@ -1,0 +1,10 @@
+spring:
+  cache:
+    cache-names: games
+    caffeine:
+      spec: maximumSize=100,expireAfterAccess=4h
+  application:
+    name: nim
+game:
+  starting-tokens: 13
+  default-starting-player: COMPUTER # or USER
