@@ -1,5 +1,6 @@
 spring:
   cache:
+    type: caffeine
     cache-names: games
     caffeine:
       spec: maximumSize=100,expireAfterAccess=4h

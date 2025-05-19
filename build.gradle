@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.5'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.owasp.dependencycheck' version '12.1.1'
 }
 
 group = 'hamburg.foo'
@@ -38,4 +39,8 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+dependencyCheck {
+    nvd.apiKey = System.getenv("NVD_API_KEY")
 }

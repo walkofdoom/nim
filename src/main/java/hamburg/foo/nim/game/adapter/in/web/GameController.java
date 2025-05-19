@@ -28,17 +28,22 @@ public class GameController {
     private final GetGameUseCase getGame;
     private final CreateGameUseCase createGame;
     private final ExecuteTurnUseCase executeTurn;
+    private final GameMapper gameMapper;
+    private final TurnMapper turnMapper;
 
-    public GameController(GetGameUseCase getGame, CreateGameUseCase createGame, ExecuteTurnUseCase executeTurn) {
+    public GameController(GetGameUseCase getGame, CreateGameUseCase createGame, ExecuteTurnUseCase executeTurn,
+            GameMapper gameMapper, TurnMapper turnMapper) {
         this.getGame = getGame;
         this.createGame = createGame;
         this.executeTurn = executeTurn;
+        this.gameMapper = gameMapper;
+        this.turnMapper = turnMapper;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GameResponse> getGame(@PathVariable @NotBlank String id) {
         GameState game = getGame.getById(id);
-        GameResponse gameDTO = GameMapper.INSTANCE.mapGameToDto(game);
+        GameResponse gameDTO = gameMapper.mapGameToDto(game);
         return ResponseEntity.ok(gameDTO);
     }
 
@@ -46,16 +51,16 @@ public class GameController {
     public GameResponse createGame(@RequestBody(required = false) CreateGameRequest request) {
         hamburg.foo.nim.game.domain.model.PlayerType startingPlayer = null;
         if (request != null) {
-            startingPlayer = GameMapper.INSTANCE.mapDtoToPlayerType(request.startingPlayer());
+            startingPlayer = gameMapper.mapDtoToPlayerType(request.startingPlayer());
         }
         GameState game = createGame.createNewGame(startingPlayer);
-        return GameMapper.INSTANCE.mapGameToDto(game);
+        return gameMapper.mapGameToDto(game);
     }
 
     @PostMapping("/{id}/turn")
     public ResponseEntity<GameResponse> makeTurn(@PathVariable @NotBlank String id,
             @RequestBody @Valid TurnRequest turnRequest) {
-        ExecuteTurnCommand command = new ExecuteTurnCommand(id, TurnMapper.INSTANCE.mapDTOtoTurn(turnRequest));
+        ExecuteTurnCommand command = new ExecuteTurnCommand(id, turnMapper.mapDTOtoTurn(turnRequest));
         executeTurn.executeTurn(command);
         return getGame(id);
     }

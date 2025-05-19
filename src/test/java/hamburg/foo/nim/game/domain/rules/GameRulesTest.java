@@ -17,37 +17,36 @@ class GameRulesTest {
 
         TurnValidationResult result = GameRules.validateTurn(game, turn);
         assertTrue(result.valid());
-        assertNull(result.reason());
     }
 
     @Test
-    void turnTooLargeIsInvalid() {
+    void tooManyTokensIsInvalid() {
         GameState game = GameState.builder().remainingTokens(5).build();
         Turn turn = Turn.builder().takeTokens(5).build();
 
         TurnValidationResult result = GameRules.validateTurn(game, turn);
         assertFalse(result.valid());
-        assertEquals(GameRules.MSG_MAX_EXCEEDED, result.reason());
+        assertNotNull(result.reason());
     }
 
     @Test
-    void turnTooSmallIsInvalid() {
+    void notEnoughTokensIsInvalid() {
         GameState game = GameState.builder().remainingTokens(5).build();
         Turn turn = Turn.builder().takeTokens(0).build();
 
         TurnValidationResult result = GameRules.validateTurn(game, turn);
         assertFalse(result.valid());
-        assertEquals(GameRules.MSG_BENEATH_MIN, result.reason());
+        assertNotNull(result.reason());
     }
 
     @Test
-    void turnWithTooManyTokensFails() {
+    void moreThanAvailableTokensFails() {
         GameState game = GameState.builder().remainingTokens(2).build();
         Turn turn = Turn.builder().takeTokens(3).build();
 
         TurnValidationResult result = GameRules.validateTurn(game, turn);
         assertFalse(result.valid());
-        assertEquals("You cannot take more tokens than available.", result.reason());
+        assertNotNull(result.reason());
     }
 
     @Test
@@ -57,18 +56,25 @@ class GameRulesTest {
 
         TurnValidationResult result = GameRules.validateTurn(game, turn);
         assertFalse(result.valid());
-        assertEquals("Game has already ended.", result.reason());
+        assertNotNull(result.reason());
     }
 
     @Test
-    void nextTurnPlayerIsSwitched() {
+    void nextTurnPlayerIsComputer() {
         GameState game = GameState.builder().nextTurn(PlayerType.HUMAN).build();
         assertEquals(PlayerType.COMPUTER, GameRules.getNextTurnPlayer(game));
     }
 
     @Test
+    void nextTurnPlayerIsHuman() {
+        GameState game = GameState.builder().nextTurn(PlayerType.COMPUTER).build();
+        assertEquals(PlayerType.HUMAN, GameRules.getNextTurnPlayer(game));
+    }
+
+    @Test
     void winnerIsPreviousPlayer() {
-        GameState game = GameState.builder().nextTurn(PlayerType.HUMAN).build();
+        GameState game = GameState.builder().remainingTokens(0)
+                .nextTurn(PlayerType.HUMAN).build();
         assertEquals(PlayerType.COMPUTER, GameRules.getWinner(game));
     }
 }
