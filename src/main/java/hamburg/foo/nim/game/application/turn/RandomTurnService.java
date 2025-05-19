@@ -1,6 +1,7 @@
 package hamburg.foo.nim.game.application.turn;
 
 import org.apache.commons.lang3.RandomUtils;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import hamburg.foo.nim.game.domain.model.GameState;
@@ -8,6 +9,7 @@ import hamburg.foo.nim.game.domain.model.Turn;
 import hamburg.foo.nim.game.domain.rules.GameRules;
 
 @Service
+@Profile("random-computer")
 public class RandomTurnService implements ComputeTurnUseCase {
 
     @Override
