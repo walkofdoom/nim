@@ -1,0 +1,14 @@
+spring:
+  cache:
+    type: caffeine
+    cache-names: games
+    caffeine:
+      spec: maximumSize=100,expireAfterAccess=4h
+  application:
+    name: nim
+  profiles:
+    active:
+    - smart-computer # or random-computer
+game:
+  starting-tokens: 13
+  default-starting-player: COMPUTER # or USER
