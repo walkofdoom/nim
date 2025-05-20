@@ -21,7 +21,8 @@ public class ComputeTurnUseCaseTest {
 
     @Test
     void computeValidTurn() {
-        GameState game = GameState.builder().uuid("game1").remainingTokens(5).nextTurn(PlayerType.COMPUTER).build();
+        GameState game = GameState.builder().uuid("game1").remainingTokens(5)
+                .nextTurn(PlayerType.COMPUTER).build();
 
         Turn turn = service.computeTurn(game);
 

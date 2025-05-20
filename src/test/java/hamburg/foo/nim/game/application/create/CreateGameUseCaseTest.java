@@ -41,7 +41,8 @@ class CreateGameUseCaseTest {
         ReflectionTestUtils.setField(service, "startingTokens", 13);
         ReflectionTestUtils.setField(service, "defaultStartingPlayer", PlayerType.HUMAN);
 
-        GameState mockGame = GameState.builder().uuid("abc").remainingTokens(13).nextTurn(defaultStarter).build();
+        GameState mockGame = GameState.builder().uuid("abc").remainingTokens(13)
+                .nextTurn(defaultStarter).build();
         when(factory.createNewGame(13, defaultStarter)).thenReturn(mockGame);
 
         GameState created = service.createNewGame(null);
@@ -59,7 +60,8 @@ class CreateGameUseCaseTest {
         ReflectionTestUtils.setField(service, "startingTokens", 13);
         ReflectionTestUtils.setField(service, "defaultStartingPlayer", defaultStarter);
 
-        GameState mockGame = GameState.builder().uuid("abc").remainingTokens(13).nextTurn(specificStarter).build();
+        GameState mockGame = GameState.builder().uuid("abc").remainingTokens(13)
+                .nextTurn(specificStarter).build();
         when(factory.createNewGame(13, specificStarter)).thenReturn(mockGame);
         when(computeTurn.computeTurn(mockGame)).thenReturn(Turn.builder().takeTokens(2).build());
 

@@ -23,7 +23,7 @@ import hamburg.foo.nim.game.domain.exception.GameNotFoundException;
 import hamburg.foo.nim.game.domain.exception.InvalidTurnException;
 
 @WebMvcTest(GameController.class)
-@Import({ GameMapperImpl.class, TurnMapperImpl.class })
+@Import({GameMapperImpl.class, TurnMapperImpl.class})
 class GameExceptionHandlerTest {
 
     @Autowired
@@ -44,27 +44,21 @@ class GameExceptionHandlerTest {
 
         doThrow(exception).when(executeTurn).executeTurn(any(ExecuteTurnCommand.class));
 
-        mockMvc.perform(post("/v1/games/789/turn")
-                .contentType("application/json")
-                .content("""
-                        {
-                            "takeTokens": 2
-                        }
-                        """))
-                .andExpect(status().isBadRequest());
+        mockMvc.perform(post("/v1/games/789/turn").contentType("application/json").content("""
+                {
+                    "takeTokens": 2
+                }
+                """)).andExpect(status().isBadRequest());
     }
 
     @Test
     void invalidGameIdReturnsNotFound() throws Exception {
         when(getGame.getById("555")).thenThrow(new GameNotFoundException("555"));
 
-        mockMvc.perform(post("/v1/games/555/turn")
-                .contentType("application/json")
-                .content("""
-                        {
-                            "takeTokens": 2
-                        }
-                        """))
-                .andExpect(status().isNotFound());
+        mockMvc.perform(post("/v1/games/555/turn").contentType("application/json").content("""
+                {
+                    "takeTokens": 2
+                }
+                """)).andExpect(status().isNotFound());
     }
 }

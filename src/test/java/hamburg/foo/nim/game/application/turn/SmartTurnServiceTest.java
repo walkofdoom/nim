@@ -22,7 +22,8 @@ public class SmartTurnServiceTest {
 
     @Test
     void reduceToMagicNumberFrom8() {
-        GameState game = GameState.builder().uuid("game1").remainingTokens(8).nextTurn(PlayerType.COMPUTER).build();
+        GameState game = GameState.builder().uuid("game1").remainingTokens(8)
+                .nextTurn(PlayerType.COMPUTER).build();
 
         Turn turn = service.computeTurn(game);
 
@@ -31,7 +32,8 @@ public class SmartTurnServiceTest {
 
     @Test
     void reduceToMagicNumberFrom7() {
-        GameState game = GameState.builder().uuid("game1").remainingTokens(7).nextTurn(PlayerType.COMPUTER).build();
+        GameState game = GameState.builder().uuid("game1").remainingTokens(7)
+                .nextTurn(PlayerType.COMPUTER).build();
 
         Turn turn = service.computeTurn(game);
 
@@ -40,7 +42,8 @@ public class SmartTurnServiceTest {
 
     @Test
     void reduceToMagicNumberFrom10() {
-        GameState game = GameState.builder().uuid("game1").remainingTokens(10).nextTurn(PlayerType.COMPUTER).build();
+        GameState game = GameState.builder().uuid("game1").remainingTokens(10)
+                .nextTurn(PlayerType.COMPUTER).build();
 
         Turn turn = service.computeTurn(game);
 
@@ -49,7 +52,8 @@ public class SmartTurnServiceTest {
 
     @Test
     void endGameFrom3() {
-        GameState game = GameState.builder().uuid("game1").remainingTokens(3).nextTurn(PlayerType.COMPUTER).build();
+        GameState game = GameState.builder().uuid("game1").remainingTokens(3)
+                .nextTurn(PlayerType.COMPUTER).build();
 
         Turn turn = service.computeTurn(game);
 
@@ -58,7 +62,8 @@ public class SmartTurnServiceTest {
 
     @Test
     void validTurnFrom5() {
-        GameState game = GameState.builder().uuid("game1").remainingTokens(5).nextTurn(PlayerType.COMPUTER).build();
+        GameState game = GameState.builder().uuid("game1").remainingTokens(5)
+                .nextTurn(PlayerType.COMPUTER).build();
 
         Turn turn = service.computeTurn(game);
 
@@ -68,7 +73,8 @@ public class SmartTurnServiceTest {
 
     @Test
     void validTurnFrom1() {
-        GameState game = GameState.builder().uuid("game1").remainingTokens(1).nextTurn(PlayerType.COMPUTER).build();
+        GameState game = GameState.builder().uuid("game1").remainingTokens(1)
+                .nextTurn(PlayerType.COMPUTER).build();
 
         Turn turn = service.computeTurn(game);
 

@@ -4,8 +4,8 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
- * Represents the current state of a Nim game session.
- * Stores the unique ID, current turn, remaining tokens, and winner.
+ * Represents the current state of a Nim game session. Stores the unique ID, current turn, remaining
+ * tokens, and winner.
  */
 @Data
 @Builder

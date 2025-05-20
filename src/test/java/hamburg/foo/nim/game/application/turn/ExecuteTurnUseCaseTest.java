@@ -43,7 +43,8 @@ class ExecuteTurnUseCaseTest {
 
     @Test
     void executesValidTurnAndAppliesComputerTurn() {
-        GameState game = GameState.builder().uuid("game1").remainingTokens(5).nextTurn(PlayerType.HUMAN).build();
+        GameState game = GameState.builder().uuid("game1").remainingTokens(5)
+                .nextTurn(PlayerType.HUMAN).build();
         Turn turn = Turn.builder().takeTokens(2).build();
         ExecuteTurnCommand command = new ExecuteTurnCommand("game1", turn);
 
@@ -58,7 +59,8 @@ class ExecuteTurnUseCaseTest {
 
     @Test
     void executesEndingTurnAndUpdatesGame() {
-        GameState game = GameState.builder().uuid("game1").remainingTokens(3).nextTurn(PlayerType.HUMAN).build();
+        GameState game = GameState.builder().uuid("game1").remainingTokens(3)
+                .nextTurn(PlayerType.HUMAN).build();
         Turn turn = Turn.builder().takeTokens(3).build();
         ExecuteTurnCommand command = new ExecuteTurnCommand("game1", turn);
 
@@ -73,7 +75,8 @@ class ExecuteTurnUseCaseTest {
 
     @Test
     void throwsIfTurnInvalid() {
-        GameState game = GameState.builder().uuid("game1").remainingTokens(1).nextTurn(PlayerType.HUMAN).build();
+        GameState game = GameState.builder().uuid("game1").remainingTokens(1)
+                .nextTurn(PlayerType.HUMAN).build();
         Turn turn = Turn.builder().takeTokens(3).build();
         ExecuteTurnCommand command = new ExecuteTurnCommand("game1", turn);
 

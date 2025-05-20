@@ -11,8 +11,8 @@ import hamburg.foo.nim.game.domain.rules.GameRules;
 /**
  * Random computer strategy for the Nim game.
  *
- * This implementation selects a random valid move between the minimum and
- * maximum allowed tokens. It does not apply any game strategy.
+ * This implementation selects a random valid move between the minimum and maximum allowed tokens.
+ * It does not apply any game strategy.
  *
  * Active only if the Spring profile "random-computer" is enabled.
  */
@@ -21,10 +21,9 @@ import hamburg.foo.nim.game.domain.rules.GameRules;
 public class RandomTurnService implements ComputeTurnUseCase {
 
     /**
-     * Computes a random move for the computer player, based on the current game
-     * state.
-     * The number of tokens is chosen randomly between the allowed minimum and
-     * maximum, but not exceeding the remaining tokens.
+     * Computes a random move for the computer player, based on the current game state. The number
+     * of tokens is chosen randomly between the allowed minimum and maximum, but not exceeding the
+     * remaining tokens.
      *
      * @param game Current game state
      * @return A random valid turn

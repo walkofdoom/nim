@@ -8,8 +8,8 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 public class NimApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NimApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(NimApplication.class, args);
+    }
 
 }

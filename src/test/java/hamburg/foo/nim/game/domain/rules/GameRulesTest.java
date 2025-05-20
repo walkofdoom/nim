@@ -1,6 +1,9 @@
 package hamburg.foo.nim.game.domain.rules;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -73,8 +76,7 @@ class GameRulesTest {
 
     @Test
     void winnerIsPreviousPlayer() {
-        GameState game = GameState.builder().remainingTokens(0)
-                .nextTurn(PlayerType.HUMAN).build();
+        GameState game = GameState.builder().remainingTokens(0).nextTurn(PlayerType.HUMAN).build();
         assertEquals(PlayerType.COMPUTER, GameRules.getWinner(game));
     }
 }

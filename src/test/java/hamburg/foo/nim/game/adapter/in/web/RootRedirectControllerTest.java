@@ -11,14 +11,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(RootRedirectController.class)
 public class RootRedirectControllerTest {
-    
+
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     void redirectsToSwaggerUI() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().is3xxRedirection())
+        mockMvc.perform(get("/")).andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/swagger-ui/index.html"));
     }
 }

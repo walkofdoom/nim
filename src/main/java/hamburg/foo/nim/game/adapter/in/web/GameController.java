@@ -49,8 +49,8 @@ public class GameController {
     private final GameMapper gameMapper;
     private final TurnMapper turnMapper;
 
-    public GameController(GetGameUseCase getGame, CreateGameUseCase createGame, ExecuteTurnUseCase executeTurn,
-            GameMapper gameMapper, TurnMapper turnMapper) {
+    public GameController(GetGameUseCase getGame, CreateGameUseCase createGame,
+            ExecuteTurnUseCase executeTurn, GameMapper gameMapper, TurnMapper turnMapper) {
         this.getGame = getGame;
         this.createGame = createGame;
         this.executeTurn = executeTurn;
@@ -58,35 +58,33 @@ public class GameController {
         this.turnMapper = turnMapper;
     }
 
-    @Operation(summary = "Get current game state", description = "Returns the current state of a Nim game by its unique ID")
+    @Operation(summary = "Get current game state",
+            description = "Returns the current state of a Nim game by its unique ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Game found and returned",
-                    content = @Content(
-                            mediaType = "application/json",
+                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = GameResponse.class),
                             examples = @ExampleObject(value = EXAMPLE_RESPONSE_OK))),
             @ApiResponse(responseCode = "404", description = "Game ID not found",
-                    content = @Content(mediaType = "text/plain"))
-    })
+                    content = @Content(mediaType = "text/plain"))})
     @GetMapping("/{id}")
-    public ResponseEntity<GameResponse> getGame(
-            @Parameter(description = "Game ID", required = true) @PathVariable @NotBlank String id) {
+    public ResponseEntity<GameResponse> getGame(@Parameter(description = "Game ID",
+            required = true) @PathVariable @NotBlank String id) {
         GameState game = getGame.getById(id);
         GameResponse gameDTO = gameMapper.mapGameToDto(game);
         return ResponseEntity.ok(gameDTO);
     }
 
-    @Operation(summary = "Create new game", description = "Creates a new Nim game. Optionally specify which player should start the game.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "New game created",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = GameResponse.class),
-                            examples = @ExampleObject(value = EXAMPLE_RESPONSE_OK)))
-    })
+    @Operation(summary = "Create new game",
+            description = "Creates a new Nim game. Optionally specify which player should start the game.")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "New game created",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = GameResponse.class),
+                    examples = @ExampleObject(value = EXAMPLE_RESPONSE_OK)))})
     @PostMapping("/create")
     public GameResponse createGame(
-            @Parameter(description = "Optional starting player (COMPUTER or HUMAN)") @RequestBody(required = false) CreateGameRequest request) {
+            @Parameter(description = "Optional starting player (COMPUTER or HUMAN)") @RequestBody(
+                    required = false) CreateGameRequest request) {
         hamburg.foo.nim.game.domain.model.PlayerType startingPlayer = null;
         if (request != null) {
             startingPlayer = gameMapper.mapDtoToPlayerType(request.startingPlayer());
@@ -95,23 +93,25 @@ public class GameController {
         return gameMapper.mapGameToDto(game);
     }
 
-    @Operation(summary = "Make a move in the game", description = "Submits a turn for the current game and returns the updated game state.")
+    @Operation(summary = "Make a move in the game",
+            description = "Submits a turn for the current game and returns the updated game state.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Turn applied and updated game returned",
-                    content = @Content(
-                            mediaType = "application/json",
+            @ApiResponse(responseCode = "200",
+                    description = "Turn applied and updated game returned",
+                    content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = GameResponse.class),
                             examples = @ExampleObject(value = EXAMPLE_RESPONSE_OK))),
             @ApiResponse(responseCode = "400", description = "Invalid turn submitted",
                     content = @Content(mediaType = "text/plain")),
             @ApiResponse(responseCode = "404", description = "Game ID not found",
-                    content = @Content(mediaType = "text/plain"))
-    })
+                    content = @Content(mediaType = "text/plain"))})
     @PostMapping("/{id}/turn")
     public ResponseEntity<GameResponse> makeTurn(
             @Parameter(description = "Game ID", required = true) @PathVariable @NotBlank String id,
-            @Parameter(description = "Player's move (1 to 3 tokens)") @RequestBody @Valid TurnRequest turnRequest) {
-        ExecuteTurnCommand command = new ExecuteTurnCommand(id, turnMapper.mapDTOtoTurn(turnRequest));
+            @Parameter(
+                    description = "Player's move (1 to 3 tokens)") @RequestBody @Valid TurnRequest turnRequest) {
+        ExecuteTurnCommand command =
+                new ExecuteTurnCommand(id, turnMapper.mapDTOtoTurn(turnRequest));
         executeTurn.executeTurn(command);
         return getGame(id);
     }

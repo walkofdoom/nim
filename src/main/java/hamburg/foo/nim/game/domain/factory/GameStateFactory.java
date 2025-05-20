@@ -11,9 +11,7 @@ import hamburg.foo.nim.game.domain.model.PlayerType;
 public class GameStateFactory {
 
     public GameState createNewGame(int initialTokens, PlayerType startingPlayer) {
-        return GameState.builder().uuid(UUID.randomUUID().toString())
-                .remainingTokens(initialTokens)
-                .nextTurn(startingPlayer)
-                .build();
+        return GameState.builder().uuid(UUID.randomUUID().toString()).remainingTokens(initialTokens)
+                .nextTurn(startingPlayer).build();
     }
 }

@@ -22,7 +22,7 @@ import hamburg.foo.nim.game.domain.model.GameState;
 import hamburg.foo.nim.game.domain.model.PlayerType;
 
 @WebMvcTest(GameController.class)
-@Import({ GameMapperImpl.class, TurnMapperImpl.class })
+@Import({GameMapperImpl.class, TurnMapperImpl.class})
 class GameControllerTest {
 
     @Autowired
@@ -39,17 +39,12 @@ class GameControllerTest {
 
     @Test
     void getGameReturnsGameResponse() throws Exception {
-        GameState mockGame = GameState.builder()
-                .uuid("123")
-                .nextTurn(PlayerType.HUMAN)
-                .winner(null)
-                .remainingTokens(5)
-                .build();
+        GameState mockGame = GameState.builder().uuid("123").nextTurn(PlayerType.HUMAN).winner(null)
+                .remainingTokens(5).build();
 
         when(getGame.getById("123")).thenReturn(mockGame);
 
-        mockMvc.perform(get("/v1/games/123"))
-                .andExpect(status().isOk())
+        mockMvc.perform(get("/v1/games/123")).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("123"))
                 .andExpect(jsonPath("$.nextTurn").value("HUMAN"))
                 .andExpect(jsonPath("$.remainingTokens").value(5));
@@ -57,36 +52,32 @@ class GameControllerTest {
 
     @Test
     void createGameWithRequestBody() throws Exception {
-        GameState game = GameState.builder().uuid("456").nextTurn(PlayerType.HUMAN).remainingTokens(10).build();
+        GameState game = GameState.builder().uuid("456").nextTurn(PlayerType.HUMAN)
+                .remainingTokens(10).build();
         when(createGame.createNewGame(PlayerType.HUMAN)).thenReturn(game);
 
-        mockMvc.perform(post("/v1/games/create")
-                .contentType("application/json")
-                .content("""
+        mockMvc.perform(post("/v1/games/create").contentType("application/json").content(
+                """
                         {
                             "startingPlayer": "HUMAN"
                         }
-                        """))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("456"))
+                """)).andExpect(status().isOk()).andExpect(jsonPath("$.id").value("456"))
                 .andExpect(jsonPath("$.nextTurn").value("HUMAN"))
                 .andExpect(jsonPath("$.remainingTokens").value(10));
     }
 
     @Test
     void executeTurnReturnsGameResponse() throws Exception {
-        GameState updatedGame = GameState.builder().uuid("789").nextTurn(PlayerType.HUMAN).remainingTokens(3).build();
+        GameState updatedGame = GameState.builder().uuid("789").nextTurn(PlayerType.HUMAN)
+                .remainingTokens(3).build();
         when(getGame.getById("789")).thenReturn(updatedGame);
 
-        mockMvc.perform(post("/v1/games/789/turn")
-                .contentType("application/json")
-                .content("""
+        mockMvc.perform(post("/v1/games/789/turn").contentType("application/json").content(
+                """
                         {
                             "takeTokens": 2
                         }
-                        """))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("789"))
+                """)).andExpect(status().isOk()).andExpect(jsonPath("$.id").value("789"))
                 .andExpect(jsonPath("$.nextTurn").value("HUMAN"))
                 .andExpect(jsonPath("$.remainingTokens").value(3));
     }
