@@ -8,12 +8,32 @@ import hamburg.foo.nim.game.domain.model.GameState;
 import hamburg.foo.nim.game.domain.model.Turn;
 import hamburg.foo.nim.game.domain.rules.GameRules;
 
+/**
+ * Smart computer strategy for the Misère Nim game.
+ * 
+ * This implementation attempts to force the opponent into losing positions,
+ * based on the mathematical structure of Misère Nim with fixed token steps.
+ * 
+ * Active only if the Spring profile "smart-computer" is enabled.
+ */
 @Service
 @Profile("smart-computer")
 public class SmartTurnService implements ComputeTurnUseCase {
 
-    private static int MAGIC_STEP = GameRules.MAX_TOKENS_PER_TURN + GameRules.MIN_TOKENS_PER_TURN; // default 4
+    /**
+     * The target step size to reach "losing positions" (1, 5, 9, ...).
+     * For a 1–3 token game, this is 4.
+     */
+    private static int MAGIC_STEP = GameRules.MAX_TOKENS_PER_TURN + GameRules.MIN_TOKENS_PER_TURN;
 
+    /**
+     * Computes the optimal turn based on the current number of remaining tokens.
+     * The goal is to leave the opponent with a number of tokens equal to a "losing
+     * state".
+     *
+     * @param game Current game state
+     * @return A turn (1–3 tokens) based on calculated strategy or random fallback
+     */
     @Override
     public Turn computeTurn(GameState game) {
         int tokens;
