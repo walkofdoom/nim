@@ -14,8 +14,8 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI nimApi() {
         return new OpenAPI().info(new Info().title("Nim Game API").version("1.0.0").description(
-                """
-                        This API allows playing a Nim game against a computer player (Misère variant).
+                "This API allows playing a Nim game against a computer player (Misère variant).\n"
+                        + """
 
                 **How it works:**
                 1. Use `POST /v1/games/create` to start a new game. Optionally choose who starts.
